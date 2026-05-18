@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rehan | Odoo ERP Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #080c10;
+    --surface: #0e1318;
+    --surface2: #141b22;
+    --accent: #00e5a0;
+    --accent2: #0af;
+    --text: #e8edf2;
+    --muted: #6b7e8f;
+    --border: rgba(255,255,255,0.07);
+    --card-bg: rgba(14,19,24,0.9);
+    --glow: rgba(0,229,160,0.15);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: .4;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 18px 0;
+    background: rgba(8,12,16,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: padding .3s;
+  }
+  nav .container { display: flex; align-items: center; justify-content: space-between; }
+  .nav-brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.4rem; color: var(--text);
+    text-decoration: none; letter-spacing: -0.5px;
+  }
+  .nav-brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: .9rem; font-weight: 500; letter-spacing: .3px;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--accent); color: #080c10 !important;
+    padding: 8px 20px; border-radius: 6px;
+    font-weight: 600 !important; font-size: .85rem !important;
+    transition: box-shadow .2s, transform .2s !important;
+  }
+  .nav-cta:hover { box-shadow: 0 0 20px var(--glow); transform: translateY(-1px); }
+  .hamburger { display: none; cursor: pointer; color: var(--text); font-size: 1.3rem; }
+  .mobile-menu {
+    display: none; flex-direction: column; gap: 0;
+    background: var(--surface); border-top: 1px solid var(--border);
+    padding: 12px 0;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { color: var(--muted); text-decoration: none; padding: 10px 24px; font-weight: 500; }
+  .mobile-menu a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 0 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-blob {
+    position: absolute; border-radius: 50%;
+    filter: blur(100px); pointer-events: none;
+  }
+  .blob1 { width: 500px; height: 500px; background: rgba(0,229,160,0.08); top: -100px; right: -100px; }
+  .blob2 { width: 400px; height: 400px; background: rgba(0,170,255,0.06); bottom: -50px; left: -50px; }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.25);
+    color: var(--accent); padding: 6px 14px; border-radius: 20px;
+    font-size: .8rem; font-weight: 600; letter-spacing: .5px;
+    text-transform: uppercase; margin-bottom: 24px;
+  }
+  .hero-tag .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .5; transform: scale(1.4); }
+  }
+
+  .hero-name {
+    font-family:'Times New Roman', Times, serif;    
+    font-size: 95px;
+    font-weight: 800; line-height: 1;
+    letter-spacing: -2px; color: var(--text);
+    margin-bottom: 8px;
+  }
+  .hero-name .accent { color: var(--accent); }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+    font-weight: 600; color: var(--muted);
+    margin-bottom: 24px; letter-spacing: -.3px;
+  }
+  .hero-desc {
+    max-width: 560px; color: var(--muted);
+    font-size: 1rem; font-weight: 300;
+    line-height: 1.8; margin-bottom: 40px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 60px; }
+  .btn-primary-custom {
+    background: var(--accent); color: #080c10;
+    padding: 14px 32px; border-radius: 8px; border: none;
+    font-weight: 700; font-size: .95rem; cursor: pointer;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: box-shadow .2s, transform .2s;
+  }
+  .btn-primary-custom:hover { box-shadow: 0 0 30px var(--glow); transform: translateY(-2px); color: #080c10; }
+  .btn-outline-custom {
+    background: transparent; color: var(--text);
+    padding: 14px 32px; border-radius: 8px;
+    border: 1px solid var(--border); font-weight: 500;
+    font-size: .95rem; cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: border-color .2s, color .2s;
+  }
+  .btn-outline-custom:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.2rem; font-weight: 800; color: var(--text);
+    line-height: 1;
+  }
+  .stat-num span { color: var(--accent); }
+  .stat-label { color: var(--muted); font-size: .8rem; font-weight: 500; letter-spacing: .5px; text-transform: uppercase; margin-top: 4px; }
+
+  .hero-img-col { display: flex; justify-content: center; align-items: center; }
+  .hero-avatar-wrap {
+    position: relative; width: 340px; height: 340px;
+  }
+  .hero-ring {
+    position: absolute; inset: -20px;
+    border-radius: 50%; border: 1px solid rgba(0,229,160,0.2);
+    animation: rotate 20s linear infinite;
+  }
+  .hero-ring::before {
+    content: ''; position: absolute;
+    top: 10px; left: 50%; transform: translateX(-50%);
+    width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+  }
+  @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .hero-avatar {
+    width: 100%; height: 100%; border-radius: 50%;
+    background: var(--surface2);
+    border: 2px solid rgba(0,229,160,0.2);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    overflow: hidden; position: relative;
+  }
+  .avatar-initial {
+    font-size: 6rem; font-weight: 800; color: var(--accent);
+    line-height: 1; letter-spacing: -4px;
+  }
+  .avatar-sub { color: var(--muted); font-size: .75rem; letter-spacing: 2px; text-transform: uppercase; }
+  .floating-badge {
+    position: absolute; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 10px 16px; display: flex; align-items: center; gap: 8px;
+    font-size: .8rem; font-weight: 600; white-space: nowrap;
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  }
+  .badge-tl { top: 20px; left: -60px; animation: float1 4s ease-in-out infinite; }
+  .badge-br { bottom: 30px; right: -50px; animation: float2 5s ease-in-out infinite; }
+  .badge-icon { font-size: 1.1rem; }
+  @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 0; }
+  .section-tag {
+    display: inline-block;
+    color: var(--accent); font-size: .75rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; color: var(--text);
+    letter-spacing: -1px; line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .section-sub { color: var(--muted); font-size: 1rem; font-weight: 300; max-width: 520px; line-height: 1.8; }
+  hr.section-line { border: none; border-top: 1px solid var(--border); margin: 0 0 60px; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--surface); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-visual {
+    background: var(--surface2);
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 40px; position: relative; overflow: hidden;
+  }
+  .about-visual::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .exp-bar { margin-bottom: 24px; }
+  .exp-bar-label { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: .85rem; font-weight: 500; }
+  .exp-bar-label span:last-child { color: var(--accent); }
+  .exp-bar-track { background: var(--surface); border-radius: 4px; height: 6px; overflow: hidden; }
+  .exp-bar-fill {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0); transform-origin: left;
+    animation: barGrow 1.5s ease forwards;
+    animation-play-state: paused;
+  }
+  .exp-bar-fill.animated { animation-play-state: running; }
+  @keyframes barGrow { to { transform: scaleX(1); } }
+  .about-text p { color: var(--muted); font-weight: 300; margin-bottom: 16px; line-height: 1.9; }
+  .about-list { list-style: none; }
+  .about-list li { display: flex; align-items: center; gap: 10px; color: var(--muted); margin-bottom: 10px; font-size: .95rem; }
+  .about-list li i { color: var(--accent); width: 16px; }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 16px; }
+  .skill-chip {
+    background: var(--surface);
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; text-align: center;
+    font-size: .82rem; font-weight: 500; color: var(--muted);
+    transition: border-color .2s, color .2s, transform .2s, box-shadow .2s;
+    cursor: default;
+  }
+  .skill-chip:hover {
+    border-color: var(--accent); color: var(--accent);
+    transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,229,160,.1);
+  }
+  .skill-chip i { display: block; font-size: 1.4rem; margin-bottom: 8px; color: var(--accent); }
+
+  /* ── PROJECTS ── */
+  #projects { background: var(--surface); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px,1fr)); gap: 28px; }
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border); border-radius: 16px;
+    overflow: hidden; transition: transform .3s, box-shadow .3s, border-color .3s;
+    position: relative;
+  }
+  .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(0,229,160,.15);
+    border-color: rgba(0,229,160,.2);
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    opacity: 0; transition: opacity .3s;
+  }
+  .project-card:hover::before { opacity: 1; }
+  .card-accent-green::before { background: linear-gradient(90deg, var(--accent), #00c97a); }
+  .card-accent-blue::before { background: linear-gradient(90deg, var(--accent2), #0055ff); }
+  .card-accent-purple::before { background: linear-gradient(90deg, #a855f7, #ec4899); }
+  .card-accent-orange::before { background: linear-gradient(90deg, #f97316, #eab308); }
+  .card-accent-teal::before { background: linear-gradient(90deg, #14b8a6, #06b6d4); }
+  .card-accent-rose::before { background: linear-gradient(90deg, #f43f5e, #e11d48); }
+
+  .project-header {
+    padding: 28px 28px 0;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .project-icon {
+    width: 52px; height: 52px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+  }
+  .icon-green { background: rgba(0,229,160,.1); color: var(--accent); }
+  .icon-blue { background: rgba(0,170,255,.1); color: var(--accent2); }
+  .icon-purple { background: rgba(168,85,247,.1); color: #a855f7; }
+  .icon-orange { background: rgba(249,115,22,.1); color: #f97316; }
+  .icon-teal { background: rgba(20,184,166,.1); color: #14b8a6; }
+  .icon-rose { background: rgba(244,63,94,.1); color: #f43f5e; }
+
+  .project-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .badge-tag {
+    font-size: .7rem; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+    letter-spacing: .3px;
+  }
+  .badge-live { background: rgba(0,229,160,.1); color: var(--accent); border: 1px solid rgba(0,229,160,.2); }
+  .badge-enterprise { background: rgba(0,170,255,.1); color: var(--accent2); border: 1px solid rgba(0,170,255,.2); }
+  .badge-custom { background: rgba(168,85,247,.1); color: #a855f7; border: 1px solid rgba(168,85,247,.2); }
+  .badge-integration { background: rgba(249,115,22,.1); color: #f97316; border: 1px solid rgba(249,115,22,.2); }
+  .badge-saas { background: rgba(20,184,166,.1); color: #14b8a6; border: 1px solid rgba(20,184,166,.2); }
+
+  .project-body { padding: 20px 28px 28px; }
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem; font-weight: 700; color: var(--text);
+    margin-bottom: 6px; letter-spacing: -.2px;
+  }
+  .project-client { color: var(--accent); font-size: .82rem; font-weight: 600; margin-bottom: 12px; }
+  .project-desc { color: var(--muted); font-size: .88rem; line-height: 1.7; margin-bottom: 18px; }
+  .project-features { list-style: none; margin-bottom: 20px; }
+  .project-features li {
+    color: var(--muted); font-size: .83rem; padding: 4px 0;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .project-features li::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tech-pill {
+    background: var(--surface2); color: var(--muted);
+    padding: 4px 10px; border-radius: 6px;
+    font-size: .75rem; font-weight: 500;
+    border: 1px solid var(--border);
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--bg); }
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 7px; top: 0; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+  .timeline-item { position: relative; margin-bottom: 48px; }
+  .timeline-dot {
+    position: absolute; left: -32px; top: 4px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg);
+    box-shadow: 0 0 12px var(--glow);
+  }
+  .timeline-period { color: var(--accent); font-size: .8rem; font-weight: 600; letter-spacing: .5px; margin-bottom: 6px; }
+  .timeline-role {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 4px;
+  }
+  .timeline-company { color: var(--muted); font-size: .9rem; margin-bottom: 14px; }
+  .timeline-points { list-style: none; }
+  .timeline-points li {
+    color: var(--muted); font-size: .9rem; padding: 5px 0;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .timeline-points li i { color: var(--accent); margin-top: 3px; font-size: .7rem; flex-shrink: 0; }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--surface); }
+  .edu-card {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px 36px;
+    display: flex; align-items: center; gap: 28px;
+    max-width: 640px;
+    transition: border-color .2s;
+  }
+  .edu-card:hover { border-color: rgba(0,229,160,.25); }
+  .edu-icon {
+    width: 64px; height: 64px; border-radius: 14px;
+    background: rgba(0,229,160,.1); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; flex-shrink: 0;
+  }
+  .edu-degree {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 4px;
+  }
+  .edu-inst { color: var(--muted); font-size: .9rem; margin-bottom: 6px; }
+  .edu-period { color: var(--accent); font-size: .8rem; font-weight: 600; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--bg); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+  .contact-info h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem; font-weight: 700; color: var(--text); margin-bottom: 16px;
+  }
+  .contact-info p { color: var(--muted); font-weight: 300; line-height: 1.8; margin-bottom: 32px; }
+  .contact-item {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+  }
+  .contact-item-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: rgba(0,229,160,.1); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-item-label { color: var(--muted); font-size: .8rem; letter-spacing: .5px; text-transform: uppercase; }
+  .contact-item-val { color: var(--text); font-weight: 500; }
+  .contact-form { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 36px; }
+  .form-group { margin-bottom: 20px; }
+  .form-label { display: block; color: var(--muted); font-size: .82rem; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; margin-bottom: 8px; }
+  .form-control-custom {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); border-radius: 8px; padding: 12px 16px;
+    font-family: 'DM Sans', sans-serif; font-size: .95rem;
+    outline: none; transition: border-color .2s, box-shadow .2s;
+    resize: vertical;
+  }
+  .form-control-custom:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,229,160,.1); }
+  .form-control-custom::placeholder { color: var(--muted); opacity: .5; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    text-align: center;
+  }
+  .footer-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem; font-weight: 800; color: var(--text);
+    margin-bottom: 8px; letter-spacing: -0.5px;
+  }
+  .footer-name span { color: var(--accent); }
+  .footer-tagline { color: var(--muted); font-size: .9rem; margin-bottom: 24px; }
+  .social-links { display: flex; justify-content: center; gap: 16px; margin-bottom: 32px; }
+  .social-link {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--muted); display: flex; align-items: center; justify-content: center;
+    text-decoration: none; transition: all .2s;
+  }
+  .social-link:hover { background: rgba(0,229,160,.1); border-color: var(--accent); color: var(--accent); }
+  .footer-copy { color: var(--muted); font-size: .8rem; }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .delay-1 { transition-delay: .1s; }
+  .delay-2 { transition-delay: .2s; }
+  .delay-3 { transition-delay: .3s; }
+  .delay-4 { transition-delay: .4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 991px) {
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .hero-img-col { display: none; }
+    .badge-tl, .badge-br { display: none; }
+  }
+  @media (max-width: 575px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 24px; }
+    .hero-btns { flex-direction: column; }
+    .btn-primary-custom, .btn-outline-custom { justify-content: center; }
+  }
+
+  /* ── CURSOR GLOW ── */
+  .cursor-glow {
+    position: fixed; width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,160,0.04) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+    transform: translate(-50%,-50%);
+    transition: opacity .3s;
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR GLOW -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="container">
+    <a href="#hero" class="nav-brand">O<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><i class="fas fa-bars"></i></div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="closeMobile()">About</a>
+    <a href="#skills" onclick="closeMobile()">Skills</a>
+    <a href="#projects" onclick="closeMobile()">Projects</a>
+    <a href="#experience" onclick="closeMobile()">Experience</a>
+    <a href="#contact" onclick="closeMobile()">Hire Me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-blob blob1"></div>
+  <div class="hero-blob blob2"></div>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <div class="hero-tag fade-up visible">
+          <span class="dot"></span>
+          Available for Projects
+        </div>
+        <h1 class="hero-name fade-up visible delay-1">
+          Muhammmad<br><span class="accent">Osaid</span>
+        </h1>
+        <p class="hero-title fade-up visible delay-2">Odoo ERP Developer & Solutions Architect</p>
+        <p class="hero-desc fade-up visible delay-3">
+          Computer Science Engineer specializing in Odoo ERP customization, workflow automation, 
+          and third-party integrations. Delivering enterprise-grade solutions for businesses across 
+          Pakistan since 2023.
+        </p>
+        <div class="hero-btns fade-up visible delay-4">
+          <a href="#projects" class="btn-primary-custom">
+            <i class="fas fa-briefcase"></i> View Projects
+          </a>
+          <a href="#contact" class="btn-outline-custom">
+            <i class="fas fa-paper-plane"></i> Let's Talk
+          </a>
+        </div>
+        <div class="hero-stats fade-up visible delay-4">
+          <div class="stat-item">
+            <div class="stat-num">2<span>+</span></div>
+            <div class="stat-label">Years Exp.</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">10<span>+</span></div>
+            <div class="stat-label">Projects Done</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">5<span>+</span></div>
+            <div class="stat-label">Happy Clients</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">3<span>+</span></div>
+            <div class="stat-label">Odoo Versions</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 hero-img-col">
+        <div class="hero-avatar-wrap">
+          <div class="hero-ring"></div>
+          <div class="hero-avatar">
+            <div class="avatar-initial">MO</div>
+            <div class="avatar-sub">ERP Expert</div>
+          </div>
+          <!-- <div class="floating-badge badge-tl">
+            <span class="badge-icon">⚡</span>
+            <span>Odoo Certified</span>
+          </div> -->
+          <div class="floating-badge badge-br">
+            <span class="badge-icon">🏢</span>
+            <span>Enterprise Ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual fade-up">
+        <h4 style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:28px;color:var(--text);">Technical Proficiency</h4>
+        <div class="exp-bar" data-width="95">
+          <div class="exp-bar-label"><span>Odoo ERP Development</span><span>95%</span></div>
+          <div class="exp-bar-track"><div class="exp-bar-fill" style="width:95%"></div></div>
+        </div>
+        <div class="exp-bar" data-width="85">
+          <div class="exp-bar-label"><span>Python / ORM</span><span>85%</span></div>
+          <div class="exp-bar-track"><div class="exp-bar-fill" style="width:85%"></div></div>
+        </div>
+        <div class="exp-bar" data-width="80">
+          <div class="exp-bar-label"><span>REST API Integration</span><span>80%</span></div>
+          <div class="exp-bar-track"><div class="exp-bar-fill" style="width:80%"></div></div>
+        </div>
+        <div class="exp-bar" data-width="75">
+          <div class="exp-bar-label"><span>PostgreSQL / XML</span><span>75%</span></div>
+          <div class="exp-bar-track"><div class="exp-bar-fill" style="width:75%"></div></div>
+        </div>
+        <div class="exp-bar" data-width="70">
+          <div class="exp-bar-label"><span>JavaScript / HTML / CSS</span><span>70%</span></div>
+          <div class="exp-bar-track"><div class="exp-bar-fill" style="width:70%"></div></div>
+        </div>
+        <div class="exp-bar" data-width="78">
+          <div class="exp-bar-label"><span>Workflow Automation</span><span>78%</span></div>
+          <div class="exp-bar-track"><div class="exp-bar-fill" style="width:78%"></div></div>
+        </div>
+      </div>
+      <div class="about-text fade-up delay-2">
+        <span class="section-tag">About Me</span>
+        <h2 class="section-title">Building ERP Solutions That Actually Work</h2>
+        <p>I'm a motivated Computer Science Engineer from Sir Syed University (2018–2022) with hands-on experience building and deploying Odoo ERP systems for real businesses across Pakistan.</p>
+        <p>From large-scale e-commerce integrations to custom school management systems running in multiple institutions simultaneously, I specialize in translating complex business requirements into clean, maintainable Odoo solutions.</p>
+        <ul class="about-list" style="margin-top:8px;">
+          <li><i class="fas fa-check-circle"></i> Odoo Partner-level project delivery</li>
+          <li><i class="fas fa-check-circle"></i> Multi-school ERP deployments (live & running)</li>
+          <li><i class="fas fa-check-circle"></i> Shopify ↔ Odoo full sync integration</li>
+          <li><i class="fas fa-check-circle"></i> Custom module development from scratch</li>
+          <li><i class="fas fa-check-circle"></i> QWeb reports, dashboards & automation</li>
+          <li><i class="fas fa-check-circle"></i> Activities: Cricket • Gym • Swimming • Travel</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-6 fade-up">
+        <span class="section-tag">What I Work With</span>
+        <h2 class="section-title">Skills & Technologies</h2>
+        <p class="section-sub">A comprehensive toolkit for delivering complete Odoo ERP solutions from development to deployment.</p>
+      </div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-chip fade-up"><i class="fas fa-cogs"></i>Odoo ERP Dev</div>
+      <div class="skill-chip fade-up delay-1"><i class="fab fa-python"></i>Python</div>
+      <div class="skill-chip fade-up delay-2"><i class="fas fa-database"></i>PostgreSQL</div>
+      <div class="skill-chip fade-up delay-3"><i class="fas fa-code"></i>XML / QWeb</div>
+      <div class="skill-chip fade-up delay-1"><i class="fas fa-exchange-alt"></i>REST API</div>
+      <div class="skill-chip fade-up delay-2"><i class="fab fa-js"></i>JavaScript</div>
+      <div class="skill-chip fade-up delay-3"><i class="fab fa-html5"></i>HTML5</div>
+      <div class="skill-chip fade-up"><i class="fab fa-css3-alt"></i>CSS3</div>
+      <div class="skill-chip fade-up delay-1"><i class="fas fa-robot"></i>Workflow Auto.</div>
+      <div class="skill-chip fade-up delay-2"><i class="fas fa-chart-bar"></i>Odoo Reports</div>
+      <div class="skill-chip fade-up delay-3"><i class="fab fa-git-alt"></i>Git / GitHub</div>
+      <div class="skill-chip fade-up"><i class="fas fa-server"></i>ERP Install</div>
+      <div class="skill-chip fade-up delay-1"><i class="fas fa-shopping-cart"></i>Sales & CRM</div>
+      <div class="skill-chip fade-up delay-2"><i class="fas fa-boxes"></i>Inventory</div>
+      <div class="skill-chip fade-up delay-3"><i class="fas fa-calculator"></i>Accounting</div>
+      <div class="skill-chip fade-up"><i class="fas fa-puzzle-piece"></i>Module Dev</div>
+      <div class="skill-chip fade-up delay-1"><i class="fas fa-users"></i>HR Module</div>
+      <div class="skill-chip fade-up delay-2"><i class="fas fa-bug"></i>Debug & Fix</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col-lg-7 fade-up">
+        <span class="section-tag">Portfolio</span>
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-sub">Real-world Odoo ERP implementations, integrations, and custom modules delivered to clients across Pakistan.</p>
+      </div>
+    </div>
+    <div class="projects-grid">
+
+      <!-- YTS -->
+      <div class="project-card card-accent-green fade-up">
+        <div class="project-header">
+          <div class="project-icon icon-green"><i class="fas fa-building"></i></div>
+          <div class="project-badges">
+            <span class="badge-tag badge-enterprise">Enterprise</span>
+            <span class="badge-tag badge-live">Live</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Odoo ERP Implementation</div>
+          <div class="project-client">YTS — Odoo Partner Project</div>
+          <div class="project-desc">Full-scale Odoo ERP deployment for YTS through an official Odoo Partner engagement, covering multiple business modules tailored to client operations.</div>
+          <ul class="project-features">
+            <li>Sales, Purchase & Inventory module configuration</li>
+            <li>Accounting & financial reporting setup</li>
+            <li>Custom workflow automation for approval chains</li>
+            <li>User roles, access control & onboarding</li>
+            <li>QWeb report customization & dashboards</li>
+          </ul>
+          <div class="project-tech">
+            <span class="tech-pill">Odoo 18</span>
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">PostgreSQL</span>
+            <span class="tech-pill">XML</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bio-Life -->
+      <div class="project-card card-accent-blue fade-up delay-1">
+        <div class="project-header">
+          <div class="project-icon icon-blue"><i class="fas fa-heartbeat"></i></div>
+          <div class="project-badges">
+            <span class="badge-tag badge-enterprise">Enterprise</span>
+            <span class="badge-tag badge-live">Live</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Healthcare ERP System</div>
+          <div class="project-client">Bio-Life Service — Odoo Partner Project</div>
+          <div class="project-desc">Odoo ERP implementation for Bio-Life Service, a healthcare service provider, delivered as part of an Odoo Partner engagement with full lifecycle support.</div>
+          <ul class="project-features">
+            <li>CRM & customer service pipeline setup</li>
+            <li>HR & payroll module configuration</li>
+            <li>Custom service delivery workflows</li>
+            <li>Invoicing, payment tracking & reconciliation</li>
+            <li>Reporting & analytics dashboards</li>
+          </ul>
+          <div class="project-tech">
+            <span class="tech-pill">Odoo 19</span>
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">QWeb</span>
+            <span class="tech-pill">REST API</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shopify Integration -->
+      <div class="project-card card-accent-purple fade-up delay-2">
+        <div class="project-header">
+          <div class="project-icon icon-purple"><i class="fab fa-shopify"></i></div>
+          <div class="project-badges">
+            <span class="badge-tag badge-integration">Integration</span>
+            <span class="badge-tag badge-custom">Custom Module</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Shopify ↔ Odoo Connector Module</div>
+          <div class="project-client">E-commerce Client — Custom Integration</div>
+          <div class="project-desc">Built a fully custom Odoo module that creates a real-time two-way sync bridge between Shopify storefronts and Odoo ERP, eliminating manual data entry.</div>
+          <ul class="project-features">
+            <li>Product & variant sync (Shopify → Odoo)</li>
+            <li>Order auto-import with status mirroring</li>
+            <li>Inventory level sync (Odoo → Shopify)</li>
+            <li>Customer data synchronization</li>
+            <li>Webhook-based real-time event handling</li>
+            <li>Error logging & retry mechanism</li>
+          </ul>
+          <div class="project-tech">
+            <span class="tech-pill">Odoo 18</span>
+            <span class="tech-pill">Shopify API</span>
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">Webhooks</span>
+            <span class="tech-pill">REST</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MSD Trader -->
+      <div class="project-card card-accent-orange fade-up">
+        <div class="project-header">
+          <div class="project-icon icon-orange"><i class="fas fa-chart-line"></i></div>
+          <div class="project-badges">
+            <span class="badge-tag badge-custom">Custom Module</span>
+            <span class="badge-tag badge-live">Live</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Trading Business ERP</div>
+          <div class="project-client">MSD Trader</div>
+          <div class="project-desc">Tailored Odoo ERP solution for a trading business, with custom modules designed around their specific procurement, sales, and financial workflows.</div>
+          <ul class="project-features">
+            <li>Multi-vendor purchase & quotation management</li>
+            <li>Custom pricing rules & discount structures</li>
+            <li>Profit/loss analytics per product category</li>
+            <li>Automated invoice generation & follow-ups</li>
+            <li>Inventory valuation & stock forecasting</li>
+          </ul>
+          <div class="project-tech">
+            <span class="tech-pill">Odoo 15</span>
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">PostgreSQL</span>
+            <span class="tech-pill">QWeb</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aqeel Associates -->
+      <div class="project-card card-accent-teal fade-up delay-1">
+        <div class="project-header">
+          <div class="project-icon icon-teal"><i class="fas fa-balance-scale"></i></div>
+          <div class="project-badges">
+            <span class="badge-tag badge-live">Goes Live</span>
+            <span class="badge-tag badge-custom">Custom</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Business Management ERP</div>
+          <div class="project-client">Aqeel Associates</div>
+          <div class="project-desc">Complete Odoo ERP setup and customization for Aqeel Associates, currently in go-live phase with full business process mapping and user training.</div>
+          <ul class="project-features">
+            <li>Full business process analysis & mapping</li>
+            <li>Custom module development for core workflows</li>
+            <li>Document management & approval flows</li>
+            <li>Client & project tracking modules</li>
+            <li>Go-live support & staff training</li>
+          </ul>
+          <div class="project-tech">
+            <span class="tech-pill">Odoo 17</span>
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">XML</span>
+            <span class="tech-pill">JavaScript</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- School Management -->
+      <div class="project-card card-accent-rose fade-up delay-2">
+        <div class="project-header">
+          <div class="project-icon icon-rose"><i class="fas fa-graduation-cap"></i></div>
+          <div class="project-badges">
+            <span class="badge-tag badge-live">Live — Multi-School</span>
+            <span class="badge-tag badge-custom">Custom Module</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">School Management System</div>
+          <div class="project-client">Multiple Schools — Pakistan</div>
+          <div class="project-desc">Built a comprehensive custom Odoo School Management module from scratch, currently deployed and running live across multiple schools simultaneously.</div>
+          <ul class="project-features">
+            <li>Student enrollment & academic records</li>
+            <li>Fee management, invoicing & payment tracking</li>
+            <li>Teacher/staff HR & attendance system</li>
+            <li>Exam scheduling, results & report cards</li>
+            <li>Parent communication portal</li>
+            <li>Multi-branch support (one instance, many schools)</li>
+            <li>Custom dashboards per school administrator</li>
+          </ul>
+          <div class="project-tech">
+            <span class="tech-pill">Odoo 16/17</span>
+            <span class="tech-pill">Python</span>
+            <span class="tech-pill">PostgreSQL</span>
+            <span class="tech-pill">QWeb</span>
+            <span class="tech-pill">JS</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 fade-up">
+        <span class="section-tag">Work History</span>
+        <h2 class="section-title">Experience</h2>
+        <p class="section-sub mb-5">Delivering real Odoo solutions to real businesses since 2023, with a track record of successful go-lives.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="timeline fade-up">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-period">2023 — Present</div>
+            <div class="timeline-role">Freelance Odoo ERP Developer</div>
+            <div class="timeline-company">Self-Employed / Freelance · Remote & On-site, Pakistan</div>
+            <ul class="timeline-points">
+              <li><i class="fas fa-circle"></i>Developed and customized Odoo ERP modules based on client business requirements</li>
+              <li><i class="fas fa-circle"></i>Implemented and configured Odoo applications including Sales, Inventory, Purchase, CRM, HR, and Accounting modules</li>
+              <li><i class="fas fa-circle"></i>Designed and integrated workflow automation solutions to improve business processes and operational efficiency</li>
+              <li><i class="fas fa-circle"></i>Performed API integrations with third-party applications and external systems (Shopify, payment gateways)</li>
+              <li><i class="fas fa-circle"></i>Customized reports, dashboards, and user interfaces according to client requirements using QWeb & OWL</li>
+              <li><i class="fas fa-circle"></i>Delivered multi-school ERP system deployed across several institutions simultaneously</li>
+              <li><i class="fas fa-circle"></i>Worked with official Odoo Partners on enterprise-level client projects (YTS, Bio-Life Service)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="row mb-5">
+      <div class="col fade-up">
+        <span class="section-tag">Academic Background</span>
+        <h2 class="section-title">Education</h2>
+      </div>
+    </div>
+    <div class="edu-card fade-up">
+      <div class="edu-icon"><i class="fas fa-university"></i></div>
+      <div>
+        <div class="edu-degree">Bachelor of Computer Science</div>
+        <div class="edu-inst">Sir Syed University of Engineering & Technology</div>
+        <div class="edu-period">2018 — 2022</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info fade-up">
+        <span class="section-tag">Get In Touch</span>
+        <h3 class="section-title">Let's Build Something Together</h3>
+        <p>Looking for an Odoo ERP developer for your next project? Whether it's a fresh implementation, a custom module, or a tricky integration — I'm here to help.</p>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div class="contact-item-label">Location</div>
+            <div class="contact-item-val">Karachi, Pakistan</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i class="fas fa-laptop-code"></i></div>
+          <div>
+            <div class="contact-item-label">Availability</div>
+            <div class="contact-item-val">Open for Freelance & Contract Work</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><i class="fas fa-clock"></i></div>
+          <div>
+            <div class="contact-item-label">Response Time</div>
+            <div class="contact-item-val">Within 24 Hours</div>
+          </div>
+        </div>
+      </div>
+      <div class="fade-up delay-2">
+        <div class="contact-form">
+          <h4 style="font-family:'Syne',sans-serif;font-weight:700;color:var(--text);margin-bottom:24px;">Send a Message</h4>
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" class="form-control-custom" placeholder="e.g. Ahmed Khan">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-control-custom" placeholder="you@company.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Project Type</label>
+            <select class="form-control-custom" style="cursor:pointer;">
+              <option value="" style="background:#141b22;">Select project type…</option>
+              <option style="background:#141b22;">Odoo Implementation</option>
+              <option style="background:#141b22;">Custom Module Development</option>
+              <option style="background:#141b22;">Third-party Integration</option>
+              <option style="background:#141b22;">Bug Fix / Support</option>
+              <option style="background:#141b22;">Consultation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea class="form-control-custom" rows="4" placeholder="Tell me about your project…"></textarea>
+          </div>
+          <button class="btn-primary-custom w-100" style="justify-content:center;" onclick="handleSubmit(this)">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-name">Rehan<span>.</span></div>
+    <div class="footer-tagline">Odoo ERP Developer · Karachi, Pakistan</div>
+    <div class="social-links">
+      <a href="#" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="#" class="social-link" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      <a href="#" class="social-link" title="Email"><i class="fas fa-envelope"></i></a>
+    </div>
+    <div class="footer-copy">© 2025 Muhammmad Osaid · Built with precision & passion</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Cursor glow
+  const glow = document.getElementById('cursorGlow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  function closeMobile() { mobileMenu.classList.remove('open'); }
+
+  // Intersection Observer for fade-up
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Trigger skill bars
+        const bars = entry.target.querySelectorAll('.exp-bar-fill');
+        bars.forEach(b => b.classList.add('animated'));
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Also observe about visual for bars
+  const aboutVis = document.querySelector('.about-visual');
+  if (aboutVis) {
+    const barObs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        aboutVis.querySelectorAll('.exp-bar-fill').forEach(b => b.classList.add('animated'));
+        barObs.unobserve(aboutVis);
+      }
+    }, { threshold: 0.3 });
+    barObs.observe(aboutVis);
+  }
+
+  // Navbar shrink
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.style.padding = window.scrollY > 60 ? '10px 0' : '18px 0';
+  });
+
+  // Active nav link highlight
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent)' : '';
+    });
+  });
+
+  // Form submit
+  function handleSubmit(btn) {
+    btn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+    btn.style.background = '#00c97a';
+    setTimeout(() => {
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+      btn.style.background = '';
+    }, 3000);
+  }
+</script>
+</body>
+</html>
